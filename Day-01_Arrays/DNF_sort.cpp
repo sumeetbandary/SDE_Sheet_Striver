@@ -1,11 +1,30 @@
 /*
     problem link: 
+    https://practice.geeksforgeeks.org/problems/sort-an-array-of-0s-1s-and-2s4231/1
     https://leetcode.com/problems/sort-colors/
+    
+    YouTube link:
+    https://www.youtube.com/watch?v=oaVa-9wmpns&list=PLgUwDviBIf0rPG3Ictpu74YWBQ1CaBkm2&index=3
 */ 
 
-class Solution {
-public:
-    void sortColors(vector<int>& nums) {
+ /* Using the sorting function 
+    TC - O(nlogn)
+    SC - O(n)
+*/
+void sort012(int a[], int n)
+{
+    sort(a,a+n);
+}
+
+/*
+    Using Counting Mthod
+*/
+
+/*
+    Using Dutch National Flag 
+*/
+void sortColors(vector<int>& nums) 
+    {
         //use DNF sort
         //region of 0s{0, low}, region of 1s{low, mid}, region of 2s{high, n - 1}
         //uncertain region or unsorted region{mid, high}.
@@ -21,4 +40,5 @@ public:
                 swap(nums[mid], nums[high--]);
         }
     }
-};
+
+
