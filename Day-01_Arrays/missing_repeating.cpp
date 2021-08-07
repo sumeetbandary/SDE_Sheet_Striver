@@ -1,70 +1,67 @@
 /*
-    problem link: https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqbTBURkpGb1l5X3lzMC1oS1dHUVBuRVlZRlp4d3xBQ3Jtc0tuYXV3YmQybmY0QWc2NkUyeHZNUUVNcUFVSEpHdVQtcVR4RDFtYUQ3eWJSendVMWhRUG8yamVJMWFMTWhZZ1hHSDNrUnFpZHhxa3dRcFB0VzNHaWJNeWNSVllQa0x5cDZtTjRSTGpXVk8ya1VuZy0zYw&q=https%3A%2F%2Fwww.geeksforgeeks.org%2Ffind-a-repeating-and-a-missing-number%2F
+    problem link: 
+    https://practice.geeksforgeeks.org/problems/find-missing-and-repeating2512/1
+    
+    YouTube link:
+    https://www.youtube.com/watch?v=5nMGY4VUoRY&list=PLgUwDviBIf0rPG3Ictpu74YWBQ1CaBkm2&index=4
 */
 
-#include <bits/stdc++.h>
-using namespace std;
+/*
+    Method 1 (Use Sorting)
+    Approach: 
+    * Sort the input array.
+    * Traverse the array and check for missing and repeating.
+    TC - O(nlogn)
+    SC - O(1)
+*/
 
-class Solution{
-public:
-    int *findTwoElement(int *arr, int n) {
-        // code here
-        int result = 0;
-        for(int i = 0; i < n; i++)
-            result ^= arr[i];
-        
-        // take xor with 1,2,3...n
-        for(int i = 1; i <= n; i++)
-            result ^= i;
-        
-        // result = missing ^ repeating
-        
-        int rsb_mask = result & -result;
-        int missing = 0, repeating = 0;
-        // partition elements into 2 sets
-        for(int i = 0; i < n; i++) {
-            if(rsb_mask & arr[i])
-                repeating ^= arr[i];
-            else
-                missing ^= arr[i];
+/*
+    Method 2 (Use count array)
+    Approach: 
+    Create a temp array temp[] of size n with all initial values as 0.
+    Traverse the input array arr[], and do following for each arr[i] 
+    if(temp[arr[i]] == 0) temp[arr[i]] = 1;
+    if(temp[arr[i]] == 1) output “arr[i]” //repeating
+    Traverse temp[] and output the array element having value as 0 (This is the missing element)
+    TC - O(2n)
+    SC - O(n)
+*/
+
+/*
+    Method 3 (Using two equations)
+    https://www.geeksforgeeks.org/find-the-repeating-and-the-missing-number-using-two-equations/
+    Note: This method can cause arithmetic overflow as we calculate product and sum of all array elements.
+    TC - O(n)
+    SC - O(1)
+*/
+void findNumbers(int arr[], int n)
+    {
+ 
+        // Sum of first n natural numbers
+        int sumN = (n * (n + 1)) / 2;
+ 
+        // Sum of squares of first n natural numbers
+        int sumSqN = (n * (n + 1) * (2 * n + 1)) / 6;
+ 
+        // To store the sum and sum of squares
+        // of the array elements
+        int sum = 0, sumSq = 0, i;
+ 
+        for (i = 0; i < n; i++) {
+            sum += arr[i];
+            sumSq = sumSq + (pow(arr[i], 2));
         }
-        for(int i = 1; i <= n; i++) {
-            if(rsb_mask & i)
-                repeating ^= i;
-            else
-                missing ^= i;
-        }
-        
-        // find the exact values of missing and repeating
-        for(int i = 0; i < n; i++) {
-            if(arr[i] == missing) {
-                swap(missing, repeating);
-                break;
-            }
-        }
-        int *ans = new int[2];
-        ans[0] = repeating;
-        ans[1] = missing;
-        
-        return ans;
-        
+ 
+        int B = (((sumSq - sumSqN) / (sum - sumN)) + sumN - sum) / 2;
+        int A = sum - sumN + B;
+         cout << "A = " ;
+         cout << A << endl;
+         cout << "B = " ;
+         cout << B << endl;
     }
-};
 
 
-int main() {
-    int t;
-    cin >> t;
-    while (t--) {
-        int n;
-        cin >> n;
-        int a[n];
-        for (int i = 0; i < n; i++) {
-            cin >> a[i];
-        }
-        Solution ob;
-        auto ans = ob.findTwoElement(a, n);
-        cout << ans[0] << " " << ans[1] << "\n";
-    }
-    return 0;
-}
+    
+
+
+
