@@ -76,4 +76,3 @@ void sortColors(vector<int>& nums)
                 swap(nums[mid], nums[high--]);
         }
     }
-testing
